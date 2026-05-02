@@ -8,9 +8,8 @@
 
 #define IDM_TRAY_TOGGLE         40001
 #define IDM_TRAY_SETTINGS       40002
-#define IDM_TRAY_AUTOSTART      40003
-#define IDM_TRAY_ABOUT          40004
-#define IDM_TRAY_EXIT           40005
+#define IDM_TRAY_ABOUT          40003
+#define IDM_TRAY_EXIT           40004
 
 #define IDC_CHK_ENABLED         1001
 #define IDC_CHK_RAISE           1002

@@ -92,13 +92,10 @@ void show_tray_menu(HWND hwnd)
     if (root == nullptr) return;
     HMENU const sub = GetSubMenu(root, 0);
 
-    bool const tracking  = spi::get_tracking().value_or(false);
-    bool const autostart = settings::autostart_get();
+    bool const tracking = spi::get_tracking().value_or(false);
     CheckMenuItem(sub, IDM_TRAY_TOGGLE,
-                  MF_BYCOMMAND | ((tracking)  ? MF_CHECKED : MF_UNCHECKED));
-    CheckMenuItem(sub, IDM_TRAY_AUTOSTART,
-                  MF_BYCOMMAND | ((autostart) ? MF_CHECKED : MF_UNCHECKED));
-    SetMenuDefaultItem(sub, IDM_TRAY_TOGGLE, FALSE);
+                  MF_BYCOMMAND | ((tracking) ? MF_CHECKED : MF_UNCHECKED));
+    SetMenuDefaultItem(sub, IDM_TRAY_SETTINGS, FALSE);
 
     // Required so the popup dismisses when the user clicks elsewhere.
     SetForegroundWindow(hwnd);
@@ -271,16 +268,10 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         case WM_TRAYCALLBACK:
         {
             UINT const event = LOWORD(lp);
-            if ((event == WM_LBUTTONUP) || (event == NIN_SELECT))
-            {
-                bool const cur = spi::get_tracking().value_or(false);
-                spi::set_tracking(!cur);
-                tray_update_tip(hwnd);
-            }
+            if (event == WM_LBUTTONDBLCLK)
+                show_settings(hwnd);
             else if ((event == WM_CONTEXTMENU) || (event == WM_RBUTTONUP))
-            {
                 show_tray_menu(hwnd);
-            }
             return 0;
         }
         case WM_COMMAND:
@@ -296,9 +287,6 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
                 }
                 case IDM_TRAY_SETTINGS:
                     show_settings(hwnd);
-                    return 0;
-                case IDM_TRAY_AUTOSTART:
-                    settings::autostart_set(!settings::autostart_get());
                     return 0;
                 case IDM_TRAY_ABOUT:
                     show_about(hwnd);

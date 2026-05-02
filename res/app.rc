@@ -11,13 +11,12 @@ IDR_TRAYMENU MENU
 BEGIN
     POPUP ""
     BEGIN
-        MENUITEM "&Enabled",            IDM_TRAY_TOGGLE
-        MENUITEM "&Settings...",        IDM_TRAY_SETTINGS
+        MENUITEM "&Enabled",      IDM_TRAY_TOGGLE
         MENUITEM SEPARATOR
-        MENUITEM "Start with &Windows", IDM_TRAY_AUTOSTART
+        MENUITEM "&Settings...",  IDM_TRAY_SETTINGS
+        MENUITEM "&About...",     IDM_TRAY_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "&About...",           IDM_TRAY_ABOUT
-        MENUITEM "E&xit",               IDM_TRAY_EXIT
+        MENUITEM "E&xit",         IDM_TRAY_EXIT
     END
 END
 
