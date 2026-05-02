@@ -43,20 +43,41 @@ HICON load_app_icon(int cx, int cy)
     return h;
 }
 
+void format_tip(wchar_t* dst)
+{
+    bool const on = spi::get_tracking().value_or(false);
+    wsprintfW(dst, L"SloppyFocus \x2014 Focus follows mouse: %s",
+              ((on) ? L"ON" : L"OFF"));
+}
+
+// NIF_SHOWTIP is required alongside NIF_TIP under NOTIFYICON_VERSION_4 — the
+// new version suppresses the standard hover tooltip by default to let apps
+// draw their own popup UI instead.
 void tray_add(HWND hwnd)
 {
     NOTIFYICONDATAW nid{};
     nid.cbSize           = sizeof(nid);
     nid.hWnd             = hwnd;
     nid.uID              = TRAY_UID;
-    nid.uFlags           = (NIF_ICON | NIF_MESSAGE | NIF_TIP);
+    nid.uFlags           = (NIF_ICON | NIF_MESSAGE | NIF_TIP | NIF_SHOWTIP);
     nid.uCallbackMessage = WM_TRAYCALLBACK;
     nid.hIcon            = load_app_icon(GetSystemMetrics(SM_CXSMICON),
                                          GetSystemMetrics(SM_CYSMICON));
-    lstrcpynW(nid.szTip, L"SloppyFocus", ARRAYSIZE(nid.szTip));
+    format_tip(nid.szTip);
     Shell_NotifyIconW(NIM_ADD, &nid);
     nid.uVersion = NOTIFYICON_VERSION_4;
     Shell_NotifyIconW(NIM_SETVERSION, &nid);
+}
+
+void tray_update_tip(HWND hwnd)
+{
+    NOTIFYICONDATAW nid{};
+    nid.cbSize = sizeof(nid);
+    nid.hWnd   = hwnd;
+    nid.uID    = TRAY_UID;
+    nid.uFlags = (NIF_TIP | NIF_SHOWTIP);
+    format_tip(nid.szTip);
+    Shell_NotifyIconW(NIM_MODIFY, &nid);
 }
 
 void tray_remove(HWND hwnd)
@@ -113,6 +134,7 @@ void apply_dialog(HWND dlg)
     spi::set_tracking(enabled);
     settings::autostart_set(autostart);
     settings::disable_on_exit_set(offOnExit);
+    if (g_msg_wnd != nullptr) tray_update_tip(g_msg_wnd);
 }
 
 INT_PTR CALLBACK settings_proc(HWND dlg, UINT msg, WPARAM wp, LPARAM lp)
@@ -230,6 +252,7 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
             {
                 bool const cur = spi::get_tracking().value_or(false);
                 spi::set_tracking(!cur);
+                tray_update_tip(hwnd);
             }
             else if ((event == WM_CONTEXTMENU) || (event == WM_RBUTTONUP))
             {
@@ -245,6 +268,7 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
                 {
                     bool const cur = spi::get_tracking().value_or(false);
                     spi::set_tracking(!cur);
+                    tray_update_tip(hwnd);
                     return 0;
                 }
                 case IDM_TRAY_SETTINGS:
