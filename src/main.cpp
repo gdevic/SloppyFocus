@@ -224,7 +224,8 @@ void show_about(HWND owner)
     c.pszContent         =
         L"Focus follows the mouse cursor without raising the window.\n"
         L"Tray icon toggles the feature; right-click for settings.\n\n"
-        WIDEN(APP_COPYRIGHT) L"\n\n"
+        WIDEN(APP_COPYRIGHT) L"\n"
+        WIDEN(APP_LICENSE)   L"\n\n"
         L"<a href=\"" WIDEN(APP_RELEASES_URL) L"\">"
         L"Check for new releases on GitHub</a>";
     c.pszMainIcon        = TD_INFORMATION_ICON;

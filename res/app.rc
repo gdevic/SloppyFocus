@@ -59,7 +59,7 @@ BEGIN
             VALUE "OriginalFilename", "SloppyFocus.exe"
             VALUE "ProductName",      APP_NAME
             VALUE "ProductVersion",   APP_VERSION_STR4
-            VALUE "LegalCopyright",   APP_COPYRIGHT
+            VALUE "LegalCopyright",   APP_COPYRIGHT " " APP_LICENSE
         END
     END
     BLOCK "VarFileInfo"
