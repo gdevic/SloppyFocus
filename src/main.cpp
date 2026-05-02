@@ -8,6 +8,7 @@
 #include "spi.h"
 #include "settings.h"
 #include "resource.h"
+#include "version.h"
 
 namespace {
 
@@ -206,6 +207,34 @@ INT_PTR CALLBACK settings_proc(HWND dlg, UINT msg, WPARAM wp, LPARAM lp)
     return FALSE;
 }
 
+HRESULT CALLBACK about_callback(HWND, UINT msg, WPARAM, LPARAM lp, LONG_PTR)
+{
+    if (msg == TDN_HYPERLINK_CLICKED)
+        ShellExecuteW(nullptr, L"open", reinterpret_cast<LPCWSTR>(lp),
+                      nullptr, nullptr, SW_SHOWNORMAL);
+    return S_OK;
+}
+
+void show_about(HWND owner)
+{
+    TASKDIALOGCONFIG c{};
+    c.cbSize             = sizeof(c);
+    c.hwndParent         = owner;
+    c.dwFlags            = (TDF_ENABLE_HYPERLINKS | TDF_ALLOW_DIALOG_CANCELLATION);
+    c.dwCommonButtons    = TDCBF_OK_BUTTON;
+    c.pszWindowTitle     = L"About " WIDEN(APP_NAME);
+    c.pszMainInstruction = WIDEN(APP_NAME) L"  " WIDEN(APP_VERSION_STR);
+    c.pszContent         =
+        L"Focus follows the mouse cursor without raising the window.\n"
+        L"Tray icon toggles the feature; right-click for settings.\n\n"
+        WIDEN(APP_COPYRIGHT) L"\n\n"
+        L"<a href=\"" WIDEN(APP_RELEASES_URL) L"\">"
+        L"Check for new releases on GitHub</a>";
+    c.pszMainIcon        = TD_INFORMATION_ICON;
+    c.pfCallback         = about_callback;
+    TaskDialogIndirect(&c, nullptr, nullptr, nullptr);
+}
+
 void show_settings(HWND owner)
 {
     if (g_settings_wnd != nullptr)
@@ -270,6 +299,9 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
                     return 0;
                 case IDM_TRAY_AUTOSTART:
                     settings::autostart_set(!settings::autostart_get());
+                    return 0;
+                case IDM_TRAY_ABOUT:
+                    show_about(hwnd);
                     return 0;
                 case IDM_TRAY_EXIT:
                     DestroyWindow(hwnd);

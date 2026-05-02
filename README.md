@@ -58,6 +58,7 @@ files go to `build\`.
 src\main.cpp        WinMain, tray, settings dialog, message loop
 src\settings.h      Registry helpers (autostart, disable-on-exit)
 src\spi.h           SPI_*ACTIVEWINDOWTRACKING wrappers
+src\version.h       Version + release URL (single source of truth)
 src\resource.h      Resource IDs
 res\app.rc          Icon, menu, dialog, version info
 res\app.manifest    PerMonitorV2 DPI, asInvoker, comctl6, Win10/11
@@ -66,3 +67,15 @@ res\make_icon.ps1   Regenerates app.ico
 build.bat           Direct-cl build via vswhere + vcvarsall
 .github\workflows\  GitHub Actions CI (Windows runner)
 ```
+
+## Releases
+
+Latest builds: <https://github.com/gdevic/SloppyFocus/releases>.
+Tray menu → **About...** shows the running version and a link.
+
+## License
+
+Copyright (c) 2026 Baltazar Studios, LLC.
+
+Licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+International](LICENSE) (CC BY-NC-SA 4.0).

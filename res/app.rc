@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include "resource.h"
+#include "version.h"
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
@@ -14,6 +15,8 @@ BEGIN
         MENUITEM "&Settings...",        IDM_TRAY_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "Start with &Windows", IDM_TRAY_AUTOSTART
+        MENUITEM SEPARATOR
+        MENUITEM "&About...",           IDM_TRAY_ABOUT
         MENUITEM "E&xit",               IDM_TRAY_EXIT
     END
 END
@@ -38,8 +41,8 @@ BEGIN
 END
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION    1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION    APP_VERSION_MAJOR,APP_VERSION_MINOR,APP_VERSION_BUILD,0
+ PRODUCTVERSION APP_VERSION_MAJOR,APP_VERSION_MINOR,APP_VERSION_BUILD,0
  FILEFLAGSMASK  0x3fL
  FILEFLAGS      0x0L
  FILEOS         VOS__WINDOWS32
@@ -52,11 +55,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName",      "Baltazar Studios, LLC"
             VALUE "FileDescription",  "SloppyFocus - focus follows mouse"
-            VALUE "FileVersion",      "1.0.0.0"
-            VALUE "InternalName",     "SloppyFocus"
+            VALUE "FileVersion",      APP_VERSION_STR4
+            VALUE "InternalName",     APP_NAME
             VALUE "OriginalFilename", "SloppyFocus.exe"
-            VALUE "ProductName",      "SloppyFocus"
-            VALUE "ProductVersion",   "1.0.0.0"
+            VALUE "ProductName",      APP_NAME
+            VALUE "ProductVersion",   APP_VERSION_STR4
+            VALUE "LegalCopyright",   APP_COPYRIGHT
         END
     END
     BLOCK "VarFileInfo"
