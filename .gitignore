@@ -1,0 +1,36 @@
+# Build output
+/build/
+/out/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+
+# Visual Studio / MSBuild
+.vs/
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.tlog
+
+# Compiled binaries / link artifacts
+*.exe
+*.obj
+*.o
+*.lib
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.idb
+*.res
+
+# Icon-generation preview artifacts
+res/app_preview_*.png
