@@ -7,7 +7,7 @@ namespace settings {
 
 inline constexpr wchar_t kAppName[]      = L"SloppyFocus";
 inline constexpr wchar_t kRunKey[]       = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-inline constexpr wchar_t kAppKey[]       = L"Software\\SloppyFocus";
+inline constexpr wchar_t kAppKey[]       = L"SOFTWARE\\Baltazar Studios, LLC\\SloppyFocus";
 inline constexpr wchar_t kDisableExit[]  = L"DisableOnExit";
 
 inline std::wstring exe_path()

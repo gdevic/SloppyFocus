@@ -2,23 +2,10 @@
 /build/
 /out/
 
-# CMake
-CMakeCache.txt
-CMakeFiles/
-CMakeScripts/
-cmake_install.cmake
-Makefile
-
-# Visual Studio / MSBuild
+# Visual Studio
 .vs/
-*.vcxproj
-*.vcxproj.user
-*.vcxproj.filters
-*.sln
 *.suo
-*.opensdf
-*.sdf
-*.tlog
+*.user
 
 # Compiled binaries / link artifacts
 *.exe

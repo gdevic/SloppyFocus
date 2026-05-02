@@ -5,15 +5,9 @@
 #include <shellapi.h>
 #include <algorithm>
 
-#include "spi.hpp"
-#include "settings.hpp"
+#include "spi.h"
+#include "settings.h"
 #include "resource.h"
-
-#pragma comment(lib, "comctl32.lib")
-#pragma comment(linker, "/manifestdependency:\"type='win32' "                       \
-                        "name='Microsoft.Windows.Common-Controls' "                  \
-                        "version='6.0.0.0' processorArchitecture='*' "               \
-                        "publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 namespace {
 
@@ -37,7 +31,7 @@ HANDLE    g_singleton     = nullptr;
 
 HICON load_app_icon(int cx, int cy)
 {
-    HICON h = HICON(LoadImageW(g_inst, MAKEINTRESOURCEW(IDI_TRAYICON),
+    HICON h = HICON(LoadImageW(g_inst, MAKEINTRESOURCEW(IDI_APP),
                                IMAGE_ICON, cx, cy, LR_DEFAULTCOLOR));
     if (h == nullptr) h = LoadIconW(nullptr, IDI_APPLICATION);
     return h;
