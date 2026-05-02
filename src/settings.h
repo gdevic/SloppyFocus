@@ -51,6 +51,18 @@ inline bool autostart_set(bool on)
     return (r == ERROR_SUCCESS);
 }
 
+// True the very first time SloppyFocus runs (before any setting has ever
+// been written). Used to seed sensible defaults instead of inheriting the
+// user's prior SPI_SETACTIVEWINDOWTRACKING state.
+inline bool app_key_exists()
+{
+    HKEY hk{};
+    LONG const r = RegOpenKeyExW(HKEY_CURRENT_USER, kAppKey, 0, KEY_QUERY_VALUE, &hk);
+    if (r != ERROR_SUCCESS) return false;
+    RegCloseKey(hk);
+    return true;
+}
+
 inline bool disable_on_exit_get()
 {
     HKEY hk{};

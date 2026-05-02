@@ -344,6 +344,16 @@ int APIENTRY wWinMain(HINSTANCE inst, HINSTANCE, PWSTR, int)
         return 0;
     }
 
+    // First-run defaults: turn on focus-follows-mouse and disable-on-exit
+    // so a fresh install does the obvious thing. After this both states
+    // persist (SPI in the OS, disable-on-exit in our app key), and we never
+    // touch them again here.
+    if (!settings::app_key_exists())
+    {
+        spi::set_tracking(true);
+        settings::disable_on_exit_set(true);
+    }
+
     if (!register_class()) return 1;
 
     g_msg_wnd = CreateWindowExW(0, kClassName, L"SloppyFocus",
