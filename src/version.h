@@ -10,7 +10,7 @@
 #define APP_VERSION_BUILD   1
 
 #define APP_VERSION_STR     "1.0.1"
-#define APP_VERSION_STR4    "1.0.1.0"
+#define APP_VERSION_STR4    APP_VERSION_STR ".0"
 
 #define APP_COPYRIGHT       "Copyright (c) 2026 Baltazar Studios, LLC."
 #define APP_LICENSE         "CC BY-NC-SA 4.0."
