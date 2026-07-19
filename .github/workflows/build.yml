@@ -31,9 +31,32 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Release notes come from commit subjects on main since the previous
+      # tag (this repo commits directly to main; there are no PRs to feed
+      # GitHub's built-in note generator).
+      - name: Generate release notes
+        shell: bash
+        run: |
+          prev=$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)
+          {
+            echo "## Changes"
+            if [ -n "$prev" ]; then
+              git log --no-merges --format='* %s' "$prev..$GITHUB_REF_NAME"
+              echo
+              echo "**Full changelog:** https://github.com/$GITHUB_REPOSITORY/compare/$prev...$GITHUB_REF_NAME"
+            else
+              git log --no-merges --format='* %s' "$GITHUB_REF_NAME"
+            fi
+          } > notes.md
+
       - uses: actions/download-artifact@v4
         with:
           name: SloppyFocus
       - uses: softprops/action-gh-release@v2
         with:
           files: SloppyFocus.exe
+          body_path: notes.md
