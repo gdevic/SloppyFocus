@@ -15,6 +15,21 @@ without raising it. No installer, no admin, single static-CRT binary.
 Under the hood SloppyFocus toggles the documented `SPI_SETACTIVEWINDOWTRACKING`
 system parameter — there is no hook, no polling, no global state of its own.
 
+### Known behavior: cursor jumps to newly opened windows
+
+While focus-follows-mouse is enabled, Windows itself moves the mouse pointer
+to the **center of any window that becomes foreground without mouse input** —
+for example a program spawned by the app you are working in, possibly on
+another monitor. When that window closes and the previous window regains
+foreground, the pointer warps back the same way.
+
+This is not SloppyFocus (or the spawning app) moving the cursor; it is a
+built-in companion of `SPI_SETACTIVEWINDOWTRACKING` inside win32k, and it
+cannot be disabled separately. It exists to keep the feature consistent:
+without the warp, the hover timer would immediately return focus to the
+window still under the stationary pointer, and a newly opened window could
+never keep keyboard focus.
+
 ## Run
 
 ```
